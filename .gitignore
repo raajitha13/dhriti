@@ -1,0 +1,43 @@
+# =====================
+# Spring Boot (backend)
+# =====================
+
+/habit-tracker/target/
+/habit-tracker/.idea/
+/habit-tracker/*.iml
+/habit-tracker/out/
+/habit-tracker/.classpath
+/habit-tracker/.project
+/habit-tracker/.settings/
+/habit-tracker/*.log
+/habit-tracker/*.jar
+
+# =====================
+# Angular (frontend)
+# =====================
+
+/habit-tracker-frontend/node_modules/
+/habit-tracker-frontend/dist/
+/habit-tracker-frontend/.angular/
+/habit-tracker-frontend/.vscode/
+/habit-tracker-frontend/*.log
+/habit-tracker-frontend/.env
+
+# =====================
+# General
+# =====================
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# IDE
+*.iml
+.idea/
+.vscode/

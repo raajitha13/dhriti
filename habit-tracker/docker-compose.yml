@@ -1,0 +1,30 @@
+
+services:
+  habit-tracker-backend:
+    build: .
+    container_name: habit-tracker-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - h2-database
+    networks:
+      - habit-tracker-network
+
+  h2-database:
+    image: oscarfonts/h2
+    container_name: h2-database
+    ports:
+      - "9092:9092"
+    networks:
+      - habit-tracker-network
+    environment:
+      H2_OPTIONS: "-web -webAllowOthers -tcp -tcpAllowOthers"
+
+networks:
+  habit-tracker-network:
+    driver: bridge
