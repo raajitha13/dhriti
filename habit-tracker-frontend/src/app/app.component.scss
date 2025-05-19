@@ -1,0 +1,135 @@
+.sidenav-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column; /* stack children vertically */
+}
+
+mat-sidenav-content.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.content-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* stick content to top */
+}
+
+
+.sidenav {
+  width: 130px;
+  background-color: #d6ffdc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* prevents scrollbars */
+  height: 100vh;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.app-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #6a6a6a;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-name i {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: #b07695; /* subtle lotus pink */
+}
+
+.sidebar-buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  width: 100%;
+  align-items: center;
+}
+
+
+.nav-avatar {
+  font-size: 40px;
+  border-radius: 10%;
+  width: 50px;
+  height: 50px;
+  line-height: 50px; /* add this */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+  color: #4a4a4a;
+}
+
+.nav-avatar {
+  border: 2px solid #f7c6c7; /* soft pastel pink (lotus flower vibe) */
+  border-radius: 15%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.nav-avatar i {
+  border: 2px solid #f9e4e5; /* lighter pastel pink */
+  border-radius: 10%;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+
+.nav-avatar:hover {
+  transform: scale(1.1);
+}
+
+.nav-avatar span {
+  position: absolute;
+  bottom: -43px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  color: #333;
+  font-size: 18px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.nav-avatar:hover span {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tagline-footer {
+  font-size: 0.85rem;
+  color: #a9849a;
+  font-style: italic;
+  text-align: center;
+  margin-top: 10px;
+  user-select: none;
+}

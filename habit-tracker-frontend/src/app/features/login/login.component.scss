@@ -1,0 +1,126 @@
+@use '../../../styles.scss' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  // center vertically
+  flex: 1;  // takes all vertical space
+  padding: 2rem;
+  color: $lotus-text-dark;
+}
+
+.app-name {
+  font-size: 2.8rem;            // Bigger font
+  font-weight: 900;             // Extra bold
+  color: $lotus-green;          // Different color from login title
+  text-align: center;
+  margin-bottom: 0.5rem;
+  user-select: none;
+  letter-spacing: 0.1rem;
+  text-shadow: 1px 1px 3px $lotus-shadow-green;
+}
+
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: $lotus-accent-pink;
+  text-shadow: 1px 1px 2px $lotus-shadow-pink;
+  
+  text-align: center;  // <--- add this
+  width: 100%;        // so it takes full width for centering
+}
+
+.login-form {
+  background: white;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px $lotus-shadow-green;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-input {
+  padding: 0.8rem 1rem;
+  border: 2px solid $lotus-pink-light;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  color: $lotus-text-dark;
+
+  &::placeholder {
+    color: $lotus-text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $lotus-pink;
+    box-shadow: 0 0 6px $lotus-pink-light;
+  }
+}
+
+.error-text {
+  font-size: 0.85rem;
+  color: #d9534f; // bootstrap red-ish
+  margin-top: -0.8rem;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
+.login-btn {
+  background-color: $lotus-pink;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $lotus-pink-hover;
+    box-shadow: 0 0 30px $lotus-shadow-green;
+  }
+
+  &:disabled {
+    background-color: $lotus-pink-light;
+    cursor: not-allowed;
+    color: $lotus-text-muted;
+  }
+}
+
+.form-error {
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  color: red;
+  margin-top: 10px;
+}
+
+.register-container {
+  margin-top: 1.5rem;
+  
+  display: flex;         // add flexbox for easy centering
+  justify-content: center; // horizontally center content
+  width: 100%;
+  
+  .register-btn {
+    background: transparent;
+    border: none;
+    color: darker($lotus-green, 20%);
+    font-weight: 1000;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $lotus-green-hover;
+      text-decoration: underline;
+    }
+  }
+}

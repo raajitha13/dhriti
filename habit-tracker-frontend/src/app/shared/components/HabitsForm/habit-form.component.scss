@@ -1,0 +1,85 @@
+@use '../../../../styles.scss' as *;
+
+.habit-form-container {
+  max-width: 450px;
+  margin: 3rem auto 2rem;  // centered horizontally, with margin top + bottom
+  padding: 2rem 2.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px $lotus-shadow-green;
+  color: $lotus-text-dark;
+}
+
+.habit-form-title {
+  color: $lotus-pink;
+  font-weight: 600;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.habit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.habit-label {
+  font-weight: 500;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  color: $lotus-text-dark;
+}
+
+.habit-input {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 2px solid $lotus-green;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+  color: $lotus-text-dark;
+
+  &:focus {
+    border-color: $lotus-pink;
+    outline: none;
+    background-color: $lotus-pink-light;
+    box-shadow: 0 0 8px $lotus-pink-light;
+  }
+}
+
+.error-message {
+  color: red;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.error-text {
+  color: red;
+  font-size: 1rem;
+}
+
+.habit-submit-btn {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: $lotus-pink;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $lotus-pink-hover;
+  }
+
+  &:disabled {
+    background-color: $lotus-pink-light;
+    cursor: not-allowed;
+  }
+}
+
+

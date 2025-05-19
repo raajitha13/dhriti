@@ -1,0 +1,39 @@
+.analytics-card {
+  padding: 24px;
+  margin: 10px;
+  border-radius: 16px;
+  background: #fdfdff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.spaced-element {
+  margin-bottom: 20px;
+}
+
+.streak-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 18px;
+}
+
+.month-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: bold;
+}
+
+.chart-container {
+  height: 350px;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px #e0e0e0;
+}
+
+

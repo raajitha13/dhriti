@@ -1,0 +1,11 @@
+<div class="left-right-arrows" style="display: flex; align-items: center; gap: 10px;">
+    <button mat-icon-button class="lotus-btn prev" (click)="left.emit()">
+        <img src="assets/lotusLeaf.png" alt="lotus leaf" class="lotus-leaf-icon" />
+    </button>
+    
+    <ng-content></ng-content>
+    
+    <button mat-icon-button class="lotus-btn next" (click)="right.emit()">
+        <img src="assets/lotusLeaf.png" alt="lotus leaf" class="lotus-leaf-icon" />
+    </button>
+</div>

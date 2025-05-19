@@ -1,0 +1,22 @@
+.lotus-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lotus-leaf-icon {
+  width: 40px; /* sized for arrow */
+  height: 20px;
+}
+
+.lotus-btn.prev .lotus-leaf-icon {
+  transform: none; /* original leaf for left arrow */
+}
+
+.lotus-btn.next .lotus-leaf-icon {
+  transform: scaleX(-1); /* mirrored leaf for right arrow */
+}

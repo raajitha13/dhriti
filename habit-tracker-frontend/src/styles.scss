@@ -1,0 +1,81 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+
+body {
+    margin: 0;
+  font-family: 'Zen Kurenaido', sans-serif;
+  cursor: url('/assets/frogCursor32.png'), auto;
+
+}
+
+button {
+  font-family: 'Zen Kurenaido', sans-serif;
+}
+
+
+// button:active,
+// button:focus {
+//   cursor: url('/assets/frogCursorEvents32.png'), pointer;
+// }
+
+/* Scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Track - the background behind the scrollbar thumb */
+::-webkit-scrollbar-track {
+  background: #fff8e1; /* pastel yellow, or your page bg */
+  border-radius: 10px;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Scrollbar thumb - the draggable part */
+::-webkit-scrollbar-thumb {
+  background: #f9b5d0;
+  border-radius: 10px;
+  border: 2px solid #fff8e1; /* matches track bg */
+}
+
+/* Optional: On hover, make thumb a bit darker */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #e38ca7 0%, #f5d5dc 100%);
+}
+
+
+
+// 🌸 Lotus Theme Base Colors
+$lotus-pink: #fbb5b7;
+$lotus-pink-hover: #f3acaf;
+$lotus-pink-light: #f9e4e5;
+
+$lotus-green: #a8d5ba;
+$lotus-green-hover: #94cbb3;
+$lotus-green-bg: #d6ffdc;
+$lotus-green-soft: #d8f3dc;
+
+$lotus-shadow-green: rgba(168, 213, 186, 0.6);
+$lotus-shadow-pink: rgba(181, 163, 165, 0.4);
+
+// Text & Accent
+$lotus-text-dark: #4a4a4a;
+$lotus-text-muted: #6b705c;
+$lotus-accent-pink: #b5838d;
+$lotus-tagline: #a9849a;
+
+// Extras
+$lotus-quote-bg: #bdfbc6;
+$lotus-quote-border: #a7c4a0;
+
+
+// $lotus-bg-faint-pink: #f9e4e5;  // You had $lotus-pink-light, can use similar
+// $lotus-bg-petal: #fbb5b7;       // close to $lotus-pink
+// $lotus-bright-green: #a8d5ba;   // same as $lotus-green
+// $lotus-hover-green: #94cbb3;    // same as $lotus-green-hover
+// $lotus-text-subtle: #6b705c;    // same as $lotus-text-muted
+
+
+

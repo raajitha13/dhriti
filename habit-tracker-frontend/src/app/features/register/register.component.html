@@ -1,0 +1,37 @@
+<div class="register-wrapper">
+  <div class="app-name">Dhriti</div>
+  
+  <form [formGroup]="registerForm" (ngSubmit)="register()" class="register-form">
+    <div class="register-title">Register</div>
+    <input type="text" formControlName="username" placeholder="Email" class="register-input" />
+    <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')" class="error-text">
+      Email is required
+    </div>
+    <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('email')" class="error-text">
+      Enter a valid email
+    </div>
+
+    <input type="password" formControlName="password" placeholder="Password" class="register-input" />
+    <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error-text">
+      <div *ngIf="registerForm.get('password')?.hasError('required')">Password is required.</div>
+      <div *ngIf="registerForm.get('password')?.hasError('minlength')">Password must be at least 6 characters.</div>
+      <div *ngIf="registerForm.get('password')?.hasError('maxlength')">Password must be at most 30 characters.</div>
+      <div *ngIf="registerForm.get('password')?.hasError('pattern')">
+        Must include uppercase, lowercase, number, and special character.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid" class="register-btn">Register</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="form-error">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="successMessage" class="form-success">
+    {{ successMessage }}
+  </div>
+
+  <div class="login-container">
+    <button (click)="goToLogin()" class="login-link-btn">Already have an account? Login</button>
+  </div>
+</div>

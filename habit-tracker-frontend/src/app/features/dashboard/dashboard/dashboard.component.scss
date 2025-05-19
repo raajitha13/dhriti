@@ -1,0 +1,208 @@
+.dashboard-container {
+  margin: 20px;
+  padding: 20px;
+  overflow-x: hidden;
+  max-width: 100%;
+  background: linear-gradient(145deg, #f9fef9, #fff6f6);
+  border: 1px solid #b5838d;
+  border-radius: 20px 20px 40px 40px; /* asymmetric rounded corners like petals */
+  box-shadow: 0 8px 15px rgba(216, 243, 220, 0.5); /* soft pastel green shadow */
+}
+
+.date-controls {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+//lotus button
+.lotus-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lotus-leaf-icon {
+  width: 40px; /* sized for arrow */
+  height: 20px;
+}
+
+.lotus-btn.prev .lotus-leaf-icon {
+  transform: none; /* original leaf for left arrow */
+}
+
+.lotus-btn.next .lotus-leaf-icon {
+  transform: scaleX(-1); /* mirrored leaf for right arrow */
+}
+
+.date-range {
+  font-weight: bold;
+  font-size: 16px;
+  color: #6B705C;
+}
+
+.mat-icon-button {
+  background: #A8D5BA;
+  color: #fff;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.mat-icon-button:hover {
+  background: #94cbb3;
+}
+
+.tracker-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tracker-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed #ccc;
+  transition: background 0.3s ease;
+}
+
+.tracker-row:hover {
+  background: #fdfdfd;
+}
+
+.header-row {
+  font-weight: bold;
+  background: #fceef1;
+  color: #5a5a5a;
+  border-radius: 6px;
+}
+
+.cell {
+  flex: 1;
+  text-align: center;
+  color: #4a4a4a;
+}
+
+.habit-name-cell {
+  flex: 2;
+  text-align: left;
+  padding-left: 10px;
+  color: #5f5f5f;
+}
+
+.edit-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #6b705c;
+  font-size: 1.2rem; /* Adjust size if needed */
+}
+
+.edit-icon-btn:hover {
+  color: #3f3f3f; /* Slightly darker on hover */
+  transform: scale(1.1); /* optional subtle grow effect */
+}
+
+.delete-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #b35656;
+  font-size: 1.2rem;
+}
+
+.delete-icon-btn:hover {
+  color: #8c2f2f;
+  transform: scale(1.1);
+}
+
+
+
+.current-streak-cell,
+.longest-streak-cell {
+  flex: 1.2;
+  font-weight: bold;
+  color: #a8577e;
+}
+
+.add-habit-btn button {
+  background: #fbb5b7;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+
+  border-radius: 30px; /* pill shape = organic, smooth */
+  padding: 12px 30px;
+  box-shadow: 0 4px 10px rgba(181, 163, 165, 0.4); /* pink shadow for depth */
+  font-family: 'Segoe Script', cursive; /* a soft handwriting font to add flow */
+}
+
+.add-habit-btn button:hover {
+  background: #f3acaf;
+}
+
+.quote-card {
+  position: relative;
+  background: #bdfbc6;
+  border: 1.5px solid #a7c4a0;
+  border-radius: 20px;
+  padding: 30px 30px 0px 30px;
+  margin: 25px;
+  box-shadow: 0 8px 18px rgba(167, 196, 160, 0.35);
+  // font-family: 'Segoe Script', cursive;
+  color: #6b705c;
+  overflow: visible;  /* allow overflow for the image */
+  min-height: 140px;
+}
+
+.user-info {
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.quote-text {
+  font-size: 1.7rem;
+  font-style: italic;
+  color: #b5838d; /* pastel pink */
+  margin-top: 8px;
+  text-align: left;
+  user-select: none;
+  max-width: 70%;
+  line-height: 1.4;
+}
+
+
+.lotus-leaves-img {
+  position: absolute;
+  bottom: -20px; /* overflow 20px below border */
+  right: -25px;  /* overflow 25px beyond border */
+  width: 220px;  /* bigger size */
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 2px 4px rgba(181, 163, 165, 0.4));
+  transition: opacity 0.4s ease;
+}
+
+.lotus-leaves-img:hover {
+  opacity: 0.5;
+}
+
+
+
+
+

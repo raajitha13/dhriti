@@ -1,0 +1,26 @@
+<div class="habit-form-container">
+  <h2 class="habit-form-title">{{ isEdit ? 'Edit Habit' : 'Add Habit' }}</h2>
+
+  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="habit-form">
+
+    <label class="habit-label">
+      Habit Name:
+      <input formControlName="name" class="habit-input" />
+    </label>
+
+    <!-- Validation errors -->
+    <div *ngIf="habitForm.get('name')?.touched && habitForm.get('name')?.invalid" class="error-message">
+      <div *ngIf="habitForm.get('name')?.hasError('required')" class="error-text">Habit name is required.</div>
+      <div *ngIf="habitForm.get('name')?.hasError('minlength')" class="error-text">Habit name must be at least 3 characters.</div>
+      <div *ngIf="habitForm.get('name')?.hasError('maxlength')" class="error-text">Habit name must be at most 30 characters.</div>
+      <div *ngIf="habitForm.get('name')?.hasError('pattern')" class="error-text">Only letters, numbers, spaces, and punctuation are allowed.</div>
+    </div>
+
+    <!-- Backend error -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <button type="submit" [disabled]="habitForm.invalid" class="habit-submit-btn">
+      {{ isEdit ? 'Update' : 'Create' }}
+    </button>
+  </form>
+</div>

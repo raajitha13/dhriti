@@ -1,0 +1,79 @@
+  
+<div fxLayout="column" fxLayoutGap="25px" class="dashboard-layout">    
+  <!-- Quote -->
+  <mat-card class="quote-card" fxLayout="column" fxLayoutGap="12px" style="position: relative; overflow: visible;">
+    <div class="user-info" style="align-self: flex-end; font-weight: 600; color: #6b705c;">
+      Hello, {{ username }}!
+    </div>
+    <div class="quote-text">
+      Still water, steady bloom. Still effort, steady you.
+    </div>
+    <img src="assets/lotusIcon.png" alt="Lotus Leaves" class="lotus-leaves-img" />
+  </mat-card>
+
+
+  <mat-card class="dashboard-container">
+  <!-- Swipe Controls -->
+  <div class="date-controls">
+    <button mat-icon-button class="lotus-btn prev" (click)="prevDates()">
+      <img src="assets/lotusLeaf.png" alt="lotus leaf" class="lotus-leaf-icon" />
+    </button>
+    <span class="date-range">
+      {{ visibleDates[0] }} - {{ visibleDates[visibleDates.length - 1] }}
+    </span>
+    <button mat-icon-button class="lotus-btn next" (click)="nextDates()">
+      <img src="assets/lotusLeaf.png" alt="lotus leaf" class="lotus-leaf-icon" />
+    </button>
+  </div>
+
+  <!-- Tracker Table -->
+  <div class="tracker-table">
+    <div class="tracker-row header-row">
+      <div class="cell habit-name-cell" fxLayout="row" fxLayoutAlign="space-between center">
+        <span>Habit</span>
+        <!-- Add Habit Button -->
+        <div class="add-habit-btn">
+          <button mat-raised-button color="primary" (click)="navigateToAddHabit()">
+            Add Habit
+          </button>
+        </div>
+      </div>
+
+      <div class="cell" *ngFor="let date of visibleDates">
+        {{ date | date: 'EEE dd' }}
+      </div>
+      <div class="cell current-streak-cell">🔥 Streak</div>
+      <div class="cell longest-streak-cell">Longest streak</div>
+    </div>
+
+    <ng-container *ngIf="habits$ | async as habits">
+      <div class="tracker-row" *ngFor="let habit of habits">
+        <div class="cell habit-name-cell" fxLayout="row" fxLayoutAlign="space-between center">
+          <span>{{ habit.name }}</span>
+          
+          <div class="habit-action-btns" fxLayout="row" fxLayoutGap="9px">
+            <button class="edit-icon-btn" (click)="navigateToUpdateHabit(habit)">
+              <i class="ph ph-pencil-simple"></i>
+            </button>
+            <button class="delete-icon-btn" (click)="deleteHabit(habit)">
+              <i class="ph ph-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="cell" *ngFor="let date of visibleDates" (click)="toggleHabitOnDate(habit, date)">
+          <mat-icon color="primary" *ngIf="isHabitCompleted(habit, date)">check_circle</mat-icon>
+          <mat-icon color="warn" *ngIf="!isHabitCompleted(habit, date)">radio_button_unchecked</mat-icon>
+        </div>
+
+        <div class="cell current-streak-cell">{{ habit.currentStreak }} days</div>
+        <div class="cell longest-streak-cell">{{ habit.longestStreak }} days</div>
+      </div>
+    </ng-container>
+  </div>
+</mat-card>
+
+
+
+
+</div>

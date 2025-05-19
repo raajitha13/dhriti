@@ -1,0 +1,43 @@
+<mat-card class="analytics-card">
+  <!-- Habit Selection -->
+  <mat-form-field appearance="fill" class="full-width spaced-element">
+    <mat-label>Select Habit</mat-label>
+    <mat-select [(value)]="selectedHabit" (selectionChange)="onHabitChange()">
+      <mat-option *ngFor="let habit of habits$ | async" [value]="habit">
+        {{ habit.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Analytics Data -->
+  <div *ngIf="analyticsData">
+    <!-- Streak Info -->
+    <div class="streak-info spaced-element">
+      <p>🔥 <strong>Current Streak:</strong> {{ analyticsData.currentStreak }} days</p>
+      <p>🏆 <strong>Longest Streak:</strong> {{ analyticsData.longestStreak }} days</p>
+      <p>✅ <strong>Total Completed:</strong> {{ analyticsData.totalCompleted }} days</p>
+    </div>
+
+    <!-- Month Navigation -->
+    <div class="month-navigation spaced-element">
+      <app-left-right-arrows
+        (left)="changeMonth('prev')"
+        (right)="changeMonth('next')"
+      ><span>{{ currentMonth | date:'MMMM yyyy' }}</span></app-left-right-arrows>
+
+      
+    </div>
+
+
+    <!-- Chart -->
+    <div class="chart-container">
+      <canvas baseChart
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="chartOptions"
+        [legend]="true"
+        [type]="chartType">
+      </canvas>
+    </div>
+  </div>
+</mat-card>

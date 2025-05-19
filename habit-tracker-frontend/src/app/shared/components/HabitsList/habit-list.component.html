@@ -1,0 +1,16 @@
+<div class="toolbar">
+  <span>Habit Tracker</span>
+  <button (click)="addHabit()">Add Habit</button>
+</div>
+
+<div class="habit-list" *ngIf="habits$ | async as habits">
+  <div *ngFor="let habit of habits" class="habit-card">
+    <h3>{{ habit.name }}</h3>
+    <!-- <p>Status: {{ habit.completed ? 'Completed' : 'Not Completed' }}</p> -->
+    <div class="actions">
+      <!-- <button (click)="toggleCompletion(habit)">Toggle</button> -->
+      <button (click)="editHabit(habit.id)">Edit</button>
+      <button (click)="deleteHabit(habit.id)">Delete</button>
+    </div>
+  </div>
+</div>
