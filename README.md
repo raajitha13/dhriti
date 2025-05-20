@@ -53,7 +53,6 @@ It draws from the resilience of the lotus: grounded, graceful, and blooming even
 > _“Even in the shadows, a lotus blooms,  
 > Unseen but unbroken, shining true.”_
 
-(This line was inspired by the lyrics of “Shadow” by SUGA of BTS)
 
 A reminder that growth doesn't always need to shout.
 
