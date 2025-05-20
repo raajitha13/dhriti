@@ -30,10 +30,12 @@ Dhriti is a habit tracker application that helps users build consistent habits t
 
 ## Screenshots
 Dashboard view showing weekly habit tracking
-![dashboard](https://github.com/user-attachments/assets/d54682fc-9151-46cc-a587-841b4372e7fb)
+![dashboardNew](https://github.com/user-attachments/assets/229bc11b-3be1-4d52-a734-160fe8a129e3)
+
 
 Analytics page with streak charts and progress
-![analytics](https://github.com/user-attachments/assets/13e309a5-9de9-4883-80d7-0ac3a8ec3490)
+![analyticsNew](https://github.com/user-attachments/assets/61b0b8de-c467-4379-bc0e-b8694f931dc8)
+
 
 
 
