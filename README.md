@@ -40,7 +40,8 @@ Dashboard view showing weekly habit tracking
 
 
 Analytics page with streak charts and progress
-![analytics30](https://github.com/user-attachments/assets/d4ef21b6-a440-49e5-a63f-76ca0a251b32)
+![analytics30](https://github.com/user-attachments/assets/e20a80f6-92ac-4de5-911c-855ca42a95cb)
+
 
 
 
