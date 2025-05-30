@@ -1,4 +1,11 @@
+<!-- Motivation Section -->
+  <div class="motivation-card spaced-element" *ngIf="summary">
+    <p class="summary-title">Summary</p>
+    <p class="summary">{{ summary }}</p>
+  </div>
+
 <mat-card class="analytics-card">
+
   <!-- Habit Selection -->
   <mat-form-field appearance="fill" class="full-width spaced-element">
     <mat-label>Select Habit</mat-label>

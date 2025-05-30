@@ -12,6 +12,7 @@ import { ChartOptions, ChartType } from 'chart.js';
 import { Habit } from '../../core/models/habit.model';
 import { HabitService } from '../../core/services/habit.service';
 import { LeftRightArrowsComponent } from '../../shared/components/LeftRightArrows/LeftRightArrows.component';
+import { MotivationService } from '../../core/services/motivation.service';
 
 @Component({
   selector: 'app-analytics',
@@ -48,7 +49,9 @@ export class AnalyticsComponent implements OnInit {
 
   currentMonth: Date = new Date(); // Controls current month being viewed
 
-  constructor(private habitService: HabitService) {}
+  summary: string = '';
+
+  constructor(private habitService: HabitService, private motivationService: MotivationService) {}
 
   ngOnInit(): void {
     this.habitService.getHabits();
@@ -58,6 +61,9 @@ export class AnalyticsComponent implements OnInit {
         this.updateAnalytics();
       }
     });
+
+    this.motivationService.fetchMotivation();
+    this.motivationService.summary$.subscribe(s => this.summary = s);
   }
 
   get habits$() {

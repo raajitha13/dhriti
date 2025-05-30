@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -102,34 +103,51 @@ public class HabitService {
     // Helper method to update streaks, longest streak, total completed days, and last completed date
     private void updateHabitStreaksAndStats(Habit habit, LocalDate completedDate, boolean isCompletion) {
         List<LocalDate> completionDates = habitCompletionRepository.findCompletionDatesByHabitId(habit.getId());
-        completionDates.sort(Comparator.naturalOrder()); // Sort dates in ascending order
 
-        // Variables to store streak calculations
-        int currentStreak = 0;
-        int longestStreak = 0;
-        int totalCompletedDays = 0;
-        LocalDate lastCompletedDate = null;
-
-        // Loop through the completion dates to calculate streaks
-        for (int i = 0; i < completionDates.size(); i++) {
-            totalCompletedDays++;
-
-            if (i > 0 && completionDates.get(i).isEqual(completionDates.get(i - 1).plusDays(1))) {
-                currentStreak++; // Increase streak if dates are consecutive
-            } else {
-                currentStreak = 1; // Reset streak if the dates are not consecutive
-            }
-
-            longestStreak = Math.max(longestStreak, currentStreak);
-            lastCompletedDate = completionDates.get(i); // Keep updating the last completed date
+        if (completionDates.isEmpty()) {
+            habit.setCurrentStreak(0);
+            habit.setLongestStreak(0);
+            habit.setTotalCompletedDays(0);
+            habit.setLastCompletedDate(null);
+            return;
         }
 
-        // Update the habit object with the recalculated values
-        habit.setCurrentStreak(currentStreak);
+        // Sort dates in ascending order
+        completionDates.sort(Comparator.naturalOrder());
+
+        // === Longest Streak Calculation ===
+        int longestStreak = 1;
+        int tempStreak = 1;
+        for (int i = 1; i < completionDates.size(); i++) {
+            if (completionDates.get(i).equals(completionDates.get(i - 1).plusDays(1))) {
+                tempStreak++;
+            } else {
+                tempStreak = 1;
+            }
+            longestStreak = Math.max(longestStreak, tempStreak);
+        }
+
+        // === Current Streak Calculation ===
+        Collections.reverse(completionDates); // descending
+        LocalDate streakCursor = LocalDate.now();
+        int currentStreak = 0;
+        for (LocalDate date : completionDates) {
+            if (date.equals(streakCursor) || date.equals(streakCursor.minusDays(1))) {
+                currentStreak++;
+                streakCursor = date;
+            } else {
+                break;
+            }
+        }
+
+        // === Set Habit Fields ===
+        habit.setTotalCompletedDays(completionDates.size());
         habit.setLongestStreak(longestStreak);
-        habit.setTotalCompletedDays(totalCompletedDays);
-        habit.setLastCompletedDate(lastCompletedDate);
+        habit.setCurrentStreak(currentStreak);
+        habit.setLastCompletedDate(Collections.max(completionDates));
     }
+
+
 
     
 

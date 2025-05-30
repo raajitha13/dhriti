@@ -11,7 +11,7 @@
 }
 
 .spaced-element {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .streak-info {
@@ -36,4 +36,26 @@
   box-shadow: inset 0 0 0 1px #e0e0e0;
 }
 
+
+//summary
+.motivation-card {
+  background: #fce3e4;
+  padding: 18px;
+  border-radius: 12px;
+  font-style: italic;
+  font-weight: 500;
+  box-shadow: inset 0 0 0 1px #e0e0e0;
+  font-size: large;
+  margin: 16px;
+}
+
+.summary-title {
+  font-weight: 600;
+  font-size: larger;
+  margin: 0px;
+}
+
+.summary{
+  margin: 0px;
+}
 

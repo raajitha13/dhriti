@@ -1,0 +1,8 @@
+python -m venv venv
+Then activate it:
+venv\Scripts\activate
+
+You should see something like (venv) at the start of your command prompt line — 
+that means it's activated.
+
+uvicorn main:app --reload

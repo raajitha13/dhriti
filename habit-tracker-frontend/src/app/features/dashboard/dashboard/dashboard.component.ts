@@ -14,6 +14,7 @@ import { AuthService } from '../../../auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../shared/components/ConfirmDialog/ConfirmDialog.component';
+import { MotivationService } from '../../../core/services/motivation.service';
 
 
 @Component({
@@ -22,7 +23,6 @@ import { ConfirmDialogComponent } from '../../../shared/components/ConfirmDialog
   styleUrl: './dashboard.component.scss',
   standalone: true,
   imports: [
-    // Material & Angular modules
     CommonModule,
     MatToolbarModule,
     MatCardModule,
@@ -44,10 +44,14 @@ export class DashboardComponent implements OnInit {
 
   username: string | null = null;
 
-  constructor(private habitService: HabitService, private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router, private authService: AuthService) {}
+  quote: string = '';
+
+  constructor(private habitService: HabitService, private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router, private authService: AuthService, private motivationService: MotivationService) {}
 
   ngOnInit(): void {
     this.username = this.authService.getUsernameFromToken();
+    this.motivationService.fetchMotivation();
+    this.motivationService.quote$.subscribe(q => this.quote = q);
     this.habitService.getHabits();
     this.generateVisibleDates();
   }
@@ -119,5 +123,7 @@ export class DashboardComponent implements OnInit {
   selectHabit(habit: Habit) {
     this.selectedHabit = habit;
   }
+
+
 
 }
