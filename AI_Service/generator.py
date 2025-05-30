@@ -121,16 +121,3 @@ def generate_weekly_summary_from_habits(habits: list[dict]) -> str:
 
     return " ".join(parts)
 
-
-# def generate_motivation_and_summary(user_data: dict) -> dict:
-#     streak = user_data.get("streak", 0)
-#     longest_streak = user_data.get("longest_streak", 0)
-#     total_completions = user_data.get("total_completions", 0)
-
-#     quote = generate_motivational_quote(streak, longest_streak, total_completions)
-#     summary = generate_weekly_summary(streak, longest_streak, total_completions)
-
-#     return {
-#         "motivational_quote": quote,
-#         "weekly_summary": summary
-#     }
