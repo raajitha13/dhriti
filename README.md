@@ -14,6 +14,7 @@ Dhriti is a habit tracker application that helps users build consistent habits t
 
 * **Backend:** Java, Spring Boot, Spring Security, JWT, H2 Database
 * **Frontend:** Angular (responsive, weekly calendar-style dashboard & analytics page)
+* **Microservice**: Python + FastAPI (AI-driven quote & summary generation) 
 * **Containerization:** Docker & Docker Compose for consistent development and deployment of backend
 
 
@@ -23,6 +24,10 @@ Dhriti is a habit tracker application that helps users build consistent habits t
 * **Secure Authentication:** Implemented with Spring Security, JWT tokens, and role-based access control to protect user data.
 * **Habit Tracking:** Users can log daily habits, view streaks, and stay motivated with real-time progress updates.
 * **Analytics Dashboard:** Visualizes habit streaks and overall progress with charts and weekly calendar views.
+* **Motivational Quotes & Weekly Summaries:**
+  * Daily motivational quote tailored to user progress, generated via Python-based FastAPI microservice
+  * Weekly habit summary based on streaks and completions for insightful reflection
+  * Smart messages adapt based on habit data
 * **RESTful APIs:** Robust backend services for user and habit management, including validation and error handling.
 * **Containerized Setup:** Dockerized backend for easy environment replication and deployment.
 
@@ -30,11 +35,13 @@ Dhriti is a habit tracker application that helps users build consistent habits t
 
 ## Screenshots
 Dashboard view showing weekly habit tracking
-![dashboardNew](https://github.com/user-attachments/assets/229bc11b-3be1-4d52-a734-160fe8a129e3)
+![dashboard30](https://github.com/user-attachments/assets/55ea6ca8-5473-419d-9ad1-46696e44b3b5)
+
 
 
 Analytics page with streak charts and progress
-![analyticsNew](https://github.com/user-attachments/assets/61b0b8de-c467-4379-bc0e-b8694f931dc8)
+![analytics30](https://github.com/user-attachments/assets/d4ef21b6-a440-49e5-a63f-76ca0a251b32)
+
 
 
 
@@ -44,7 +51,9 @@ Analytics page with streak charts and progress
 * Building secure, role-based REST APIs with Spring Boot and JWT
 * Designing responsive Angular apps with calendar and analytics components
 * Containerizing applications with Docker and Docker Compose
+* Integrating a Python FastAPI microservice for dynamic content generation (quotes & summaries)
 * Importance of UX and cohesive aesthetic themes in enhancing user engagement
+
 
 
 ## Philosophy
