@@ -34,7 +34,7 @@ import { MotivationService } from '../../core/services/motivation.service';
 })
 export class AnalyticsComponent implements OnInit {
   selectedHabit: Habit | null = null;
-  lineChartData: { data: number[]; label: string; fill: boolean; borderColor: string; tension: number }[] = [];
+  lineChartData: { data: (number | null)[]; label: string; fill: boolean; borderColor: string; tension: number }[] = [];
   lineChartLabels: string[] = [];
   chartType: ChartType = 'line';
   chartOptions: ChartOptions = {
@@ -102,25 +102,34 @@ export class AnalyticsComponent implements OnInit {
     const month = this.currentMonth.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+    const today = new Date();
+    const isCurrentMonth =
+      year === today.getFullYear() && month === today.getMonth();
+    const todayDate = today.getDate();
+
     const labels: string[] = [];
-    const data: number[] = [];
+    const data: (number | null)[] = [];
 
     let currentStreak = 0;
 
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(year, month, day);
-      const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day
+        .toString()
+        .padStart(2, '0')}`;
       const label = day.toString().padStart(2, '0');
-
       labels.push(label);
 
-      if (completedDates.has(dateStr)) {
-        currentStreak++;
+      if (isCurrentMonth && day > todayDate) {
+        // For days after today in the current month, push null to stop the line
+        data.push(null);
       } else {
-        currentStreak = 0;
+        if (completedDates.has(dateStr)) {
+          currentStreak++;
+        } else {
+          currentStreak = 0;
+        }
+        data.push(currentStreak);
       }
-
-      data.push(currentStreak);
     }
 
     this.lineChartLabels = labels;
@@ -130,38 +139,39 @@ export class AnalyticsComponent implements OnInit {
         label: `${this.selectedHabit.name} - Streak`,
         fill: true,
         borderColor: '#66BB6A',
-        tension: 0.3
-      }
+        tension: 0.3,
+        spanGaps: false, // important so it does NOT connect null gaps
+      } as any,
     ];
+
 
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
-     scales: {
-  x: {
-    ticks: {
-      autoSkip: false,
-      font: { size: 10 },
-      maxRotation: 45,
-      minRotation: 45,
-    },
-    grid: { display: false }
-  },
-  y: {
-    beginAtZero: true,
-    ticks: { font: { size: 12 } },
-    grid: { color: 'rgba(0,0,0,0.05)' }
-  }
-},
-
-
+      scales: {
+        x: {
+          ticks: {
+            autoSkip: false,
+            font: { size: 10 },
+            maxRotation: 45,
+            minRotation: 45,
+          },
+          grid: { display: false },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { font: { size: 12 } },
+          grid: { color: 'rgba(0,0,0,0.05)' },
+        },
+      },
     };
 
     this.analyticsData = {
       currentStreak: this.selectedHabit.currentStreak || 0,
       longestStreak: this.selectedHabit.longestStreak || 0,
-      totalCompleted: this.selectedHabit.completedDates?.length || 0
+      totalCompleted: this.selectedHabit.completedDates?.length || 0,
     };
   }
+
 
 }
