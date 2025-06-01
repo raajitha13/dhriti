@@ -56,10 +56,10 @@ export class AnalyticsComponent implements OnInit {
   ngOnInit(): void {
     this.habitService.getHabits();
     this.habitService.habits$.subscribe(habits => {
-      if (habits.length > 0) {
-        this.selectedHabit = { ...habits[0] };
-        this.updateAnalytics();
-      }
+      // if (habits.length > 0) {
+      //   this.selectedHabit = { ...habits[0] };
+      //   this.updateAnalytics();
+      // }
     });
 
     this.motivationService.fetchMotivation();
@@ -83,11 +83,21 @@ export class AnalyticsComponent implements OnInit {
 
 
   changeMonth(direction: 'prev' | 'next'): void {
+    // Calculate tentative new month offset
+    const offset = direction === 'next' ? 1 : -1;
     const newMonth = new Date(this.currentMonth);
-    newMonth.setMonth(this.currentMonth.getMonth() + (direction === 'next' ? 1 : -1));
-    this.currentMonth = newMonth;
+    newMonth.setDate(1);
+    newMonth.setMonth(newMonth.getMonth() + offset);
+
+    const now = new Date();
+    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Clamp to prevent going into future months
+    this.currentMonth = newMonth > currentMonthStart ? currentMonthStart : newMonth;
+
     this.updateAnalytics();
   }
+
 
   updateAnalytics(): void {
     if (!this.selectedHabit || !this.selectedHabit.completedDates?.length) {
@@ -119,9 +129,20 @@ export class AnalyticsComponent implements OnInit {
       const label = day.toString().padStart(2, '0');
       labels.push(label);
 
-      if (isCurrentMonth && day > todayDate) {
-        // For days after today in the current month, push null to stop the line
-        data.push(null);
+      const todayStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${todayDate.toString().padStart(2, '0')}`;
+
+      if (isCurrentMonth) {
+        if (day > todayDate || (day === todayDate && !completedDates.has(todayStr))) {
+          // Stop line at yesterday if today is not completed
+          data.push(null);
+        } else {
+          if (completedDates.has(dateStr)) {
+            currentStreak++;
+          } else {
+            currentStreak = 0;
+          }
+          data.push(currentStreak);
+        }
       } else {
         if (completedDates.has(dateStr)) {
           currentStreak++;
@@ -172,6 +193,14 @@ export class AnalyticsComponent implements OnInit {
       totalCompleted: this.selectedHabit.completedDates?.length || 0,
     };
   }
+
+  hasChartData(): boolean {
+    return (
+      this.lineChartData.length > 0 &&
+      this.lineChartData[0].data?.some(d => d !== null)
+    );
+  }
+
 
 
 }

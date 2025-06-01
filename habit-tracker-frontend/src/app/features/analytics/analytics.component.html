@@ -47,4 +47,11 @@
       </canvas>
     </div>
   </div>
+
+  <!-- No data message -->
+  <div class="no-data" *ngIf="selectedHabit && !hasChartData()">
+    <p class="no-data-msg">🛋️ "{{ selectedHabit.name }}" is just vibin’ right now. Maybe it’s waiting on you to bring the action. 😅</p>
+  </div>
+
+
 </mat-card>
