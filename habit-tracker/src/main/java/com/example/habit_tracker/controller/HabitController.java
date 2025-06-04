@@ -1,6 +1,7 @@
 package com.example.habit_tracker.controller;
 
 import com.example.habit_tracker.model.Habit;
+import com.example.habit_tracker.model.HabitWithCompletionsDto;
 import com.example.habit_tracker.model.User;
 import com.example.habit_tracker.repository.HabitRepository;
 import com.example.habit_tracker.service.HabitService;
@@ -42,6 +43,14 @@ public class HabitController {
         User user = accessValidator.getCurrentUser();
         return habitRepository.findByUser(user);
     }
+
+    @GetMapping("/HabitsWithCompletions")
+    public ResponseEntity<List<HabitWithCompletionsDto>> getAllHabitsWithCompletions() {
+        User user = accessValidator.getCurrentUser();
+        List<HabitWithCompletionsDto> result = habitService.getHabitsWithCompletionsByUser(user);
+        return ResponseEntity.ok(result);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Habit> getHabitById(@PathVariable Long id) {

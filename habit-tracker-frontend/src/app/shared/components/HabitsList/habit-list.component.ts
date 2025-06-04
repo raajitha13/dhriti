@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HabitService } from '../../core/services/habit.service';
-import { Habit } from '../../core/models/habit.model';
+import { HabitService } from '../../../core/services/habit.service';
 
 
 @Component({

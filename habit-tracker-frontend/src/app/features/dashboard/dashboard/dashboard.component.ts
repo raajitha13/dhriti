@@ -91,8 +91,22 @@ export class DashboardComponent implements OnInit {
 
 
   toggleHabitOnDate(habit: Habit, date: string) {
-    this.habitService.toggleHabitCompletion(habit.id, date).subscribe(() => {
-      this.habitService.getHabits();
+    this.habitService.toggleHabitCompletion(habit.id, date).subscribe({
+      next: () => {
+        this.habitService.getHabitById(habit.id).subscribe({
+          next: (updatedHabit) => {
+            this.habitService.replaceHabitInList(updatedHabit);
+          },
+          error: (err) => {
+            this.snackBar.open('Failed to fetch updated habit data', 'Close', { duration: 3000 });
+            console.error(err);
+          }
+        });
+      },
+      error: (err) => {
+        this.snackBar.open('Failed to update habit', 'Close', { duration: 3000 });
+        console.error(err);
+      }
     });
   }
 
@@ -123,7 +137,5 @@ export class DashboardComponent implements OnInit {
   selectHabit(habit: Habit) {
     this.selectedHabit = habit;
   }
-
-
 
 }

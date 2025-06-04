@@ -2,6 +2,8 @@ package com.example.habit_tracker.service;
 
 import com.example.habit_tracker.model.Habit;
 import com.example.habit_tracker.model.HabitCompletion;
+import com.example.habit_tracker.model.HabitWithCompletionsDto;
+import com.example.habit_tracker.model.User;
 import com.example.habit_tracker.repository.HabitCompletionRepository;
 import com.example.habit_tracker.repository.HabitRepository;
 import org.springframework.stereotype.Service;
@@ -63,9 +65,24 @@ public class HabitService {
     // Update an existing habit
     public Habit updateHabit(Long id, Habit updatedHabit) {
         Habit habit = getHabitById(id);
-        habit.setName(updatedHabit.getName());
+
+        String currentName = habit.getName();
+        String newName = updatedHabit.getName();
+        Long userId = habit.getUser().getId();
+
+        if (currentName.equalsIgnoreCase(newName)) {
+            throw new IllegalArgumentException("Yo! The habit is already called '" + newName + "'. Nothing to update here. 😄");
+        }
+
+        boolean exists = habitRepository.existsByNameAndUserId(newName, userId);
+        if (exists) {
+            throw new IllegalArgumentException("Oops! You've already got a habit named '" + newName + "'. Try something cooler! 😅");
+        }
+
+        habit.setName(newName);
         return habitRepository.save(habit);
     }
+
 
     // Delete a habit
     public void deleteHabit(Long habitId) {
@@ -187,6 +204,27 @@ public class HabitService {
 
         return stats;
     }
+
+    public List<HabitWithCompletionsDto> getHabitsWithCompletionsByUser(User user) {
+        List<Habit> habits = habitRepository.findByUser(user);
+
+        return habits.stream().map(habit -> {
+            List<LocalDate> completions = habitCompletionRepository.findCompletionDatesByHabitId(habit.getId());
+
+            HabitWithCompletionsDto dto = new HabitWithCompletionsDto();
+            dto.setId(habit.getId());
+            dto.setName(habit.getName());
+            dto.setCurrentStreak(habit.getCurrentStreak());
+            dto.setLongestStreak(habit.getLongestStreak());
+            dto.setTotalCompletedDays(habit.getTotalCompletedDays());
+            dto.setLastCompletedDate(habit.getLastCompletedDate());
+            dto.setCompletedDates(completions);
+            dto.setUserId(habit.getUser().getId());
+
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
 
 
 }

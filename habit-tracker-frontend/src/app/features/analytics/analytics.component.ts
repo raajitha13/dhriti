@@ -54,13 +54,13 @@ export class AnalyticsComponent implements OnInit {
   constructor(private habitService: HabitService, private motivationService: MotivationService) {}
 
   ngOnInit(): void {
-    this.habitService.getHabits();
-    this.habitService.habits$.subscribe(habits => {
-      // if (habits.length > 0) {
-      //   this.selectedHabit = { ...habits[0] };
-      //   this.updateAnalytics();
-      // }
-    });
+    // this.habitService.getHabits();
+    // this.habitService.habits$.subscribe(habits => {
+    //   // if (habits.length > 0) {
+    //   //   this.selectedHabit = { ...habits[0] };
+    //   //   this.updateAnalytics();
+    //   // }
+    // });
 
     this.motivationService.fetchMotivation();
     this.motivationService.summary$.subscribe(s => this.summary = s);

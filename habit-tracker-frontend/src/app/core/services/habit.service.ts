@@ -4,7 +4,7 @@ import { signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Habit } from '../models/habit.model';
 import { Observable } from 'rxjs/internal/Observable';
-import { tap } from 'rxjs';
+import { forkJoin, map, mergeMap, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,31 +24,42 @@ export class HabitService {
     return this.http.get<string[]>(`${this.baseUrl}/${habitId}/completions`);
   }
   
+  //getting habits along with completions data
   getHabits() {
-    this.http.get<any[]>(this.baseUrl).subscribe(data => {
-      
-      data.forEach(habit => {
-        // Fetch completion dates for each habit
-        this.getCompletionDates(habit.id).subscribe(completions => {
-          habit.completedDates = completions.map(date => date); // Assign completed dates to habit
-        });
-      });
-      this.habitsSubject.next(data);
+    this.http.get<Habit[]>(`${this.baseUrl}/HabitsWithCompletions`).subscribe(habitsWithCompletions => {
+      this.habitsSubject.next(habitsWithCompletions);
     });
   }
 
+  getHabitById(id: number): Observable<Habit> {
+    return this.http.get<Habit>(`${this.baseUrl}/${id}`).pipe(
+      mergeMap(habit =>
+        this.getCompletionDates(habit.id).pipe(
+          map(completions => {
+            habit.completedDates = completions;
+            return habit;
+          })
+        )
+      )
+    );
+  }
+
   addHabit(habit: Habit) {
-    return this.http.post(this.baseUrl, habit);
+    return this.http.post(this.baseUrl, habit).pipe(
+      tap(() => this.getHabits())
+    );
   }
   
   updateHabit(id: number, habit: any) {
-    return this.http.put(`${this.baseUrl}/${id}`, habit);
+    return this.http.put(`${this.baseUrl}/${id}`, habit).pipe(
+      tap(() => this.getHabits())
+    );
   }
 
   deleteHabit(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`).pipe(
       tap(() => this.getHabits())  // refresh the habits after delete
-    );;
+    );
   }
 
   toggleHabitCompletion(id: number, date: string) {
@@ -59,5 +70,12 @@ export class HabitService {
     return this.http.get(`/api/habits/${habitId}/analytics`);
   }
 
+  replaceHabitInList(updatedHabit: Habit) {
+    const currentHabits = this.habitsSubject.getValue();
+    const updatedHabits = currentHabits.map(h =>
+      h.id === updatedHabit.id ? updatedHabit : h
+    );
+    this.habitsSubject.next(updatedHabits);
+  }
 
 }
