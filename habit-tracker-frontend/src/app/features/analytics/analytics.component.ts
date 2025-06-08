@@ -62,12 +62,16 @@ export class AnalyticsComponent implements OnInit {
     //   // }
     // });
 
-    this.motivationService.fetchMotivation();
-    this.motivationService.summary$.subscribe(s => this.summary = s);
+    this.motivationService.fetchSummary();
+    // this.motivationService.summary$.subscribe(s => this.summary = s);
   }
 
   get habits$() {
     return this.habitService.habits$;
+  }
+
+  get summary$() {
+    return this.motivationService.summary$;
   }
 
   onHabitChange(): void {

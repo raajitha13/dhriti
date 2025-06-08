@@ -3,11 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-export interface MotivationResponse {
-  motivational_quote: string;
-  weekly_summary: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,16 +16,39 @@ export class MotivationService {
   quote$ = this.quoteSubject.asObservable();
   summary$ = this.summarySubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.fetchSummary();
+  }
 
-  fetchMotivation(): void {
-    this.http.get<MotivationResponse>(`${this.baseUrl}`).pipe(
-      tap(response => {
-        this.quoteSubject.next(response.motivational_quote);
-        this.summarySubject.next(response.weekly_summary);
+  fetchQuote(): void {
+    const cachedQuote = localStorage.getItem('daily_quote');
+    const cachedDate = localStorage.getItem('quote_date');
+    const today = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+
+    if (cachedQuote && cachedDate === today) {
+      this.quoteSubject.next(cachedQuote);
+      return;
+    }
+
+    this.http.get<{ motivational_quote: string }>(`${this.baseUrl}/quote`).pipe(
+      tap(res => {
+        const quote = res.motivational_quote;
+        this.quoteSubject.next(quote);
+        localStorage.setItem('daily_quote', quote);
+        localStorage.setItem('quote_date', today);
       }),
       catchError(err => {
-        console.error('Motivation fetch failed:', err);
+        console.error('Quote fetch failed:', err);
+        return of(null);
+      })
+    ).subscribe();
+  }
+
+  fetchSummary(): void {
+    this.http.get<{ weekly_summary: string }>(`${this.baseUrl}/summary`).pipe(
+      tap(res => this.summarySubject.next(res.weekly_summary)),
+      catchError(err => {
+        console.error('Summary fetch failed:', err);
         return of(null);
       })
     ).subscribe();

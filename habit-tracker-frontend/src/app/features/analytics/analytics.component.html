@@ -1,7 +1,7 @@
 <!-- Motivation Section -->
-  <div class="motivation-card spaced-element" *ngIf="summary">
+  <div class="motivation-card spaced-element" *ngIf="summary$">
     <p class="summary-title">Summary</p>
-    <p class="summary">{{ summary }}</p>
+    <p class="summary">{{ summary$ | async }}</p>
   </div>
 
 <mat-card class="analytics-card">

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/motivation")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -18,17 +20,29 @@ public class MotivationController {
     @Autowired
     private HabitAccessValidator accessValidator;
 
-    @GetMapping
+    @GetMapping("/summary")
     public ResponseEntity<?> getMotivationSummary() {
-        User user = accessValidator.getCurrentUser();
-
         try {
-            String summary = motivationService.generateMotivationSummary(user);
-            return ResponseEntity.ok(summary);
+            User user = accessValidator.getCurrentUser();
+            String summary = motivationService.generateSummary(user);
+            return ResponseEntity.ok(Map.of("weekly_summary", summary));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("{\"error\": \"Could not fetch AI summary.\"}");
+                .body(Map.of("error", "Could not fetch AI summary."));
+        }
+    }
+
+    @GetMapping("/quote")
+    public ResponseEntity<?> getMotivationalQuote() {
+        try {
+            User user = accessValidator.getCurrentUser();
+            String quote = motivationService.getQuote(user);
+            return ResponseEntity.ok(Map.of("motivational_quote", quote));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("motivational_quote", "Still water, steady bloom. Still effort, steady you."));
         }
     }
 }

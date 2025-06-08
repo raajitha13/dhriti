@@ -4,7 +4,7 @@ import { signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Habit } from '../models/habit.model';
 import { Observable } from 'rxjs/internal/Observable';
-import { forkJoin, map, mergeMap, switchMap, tap } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

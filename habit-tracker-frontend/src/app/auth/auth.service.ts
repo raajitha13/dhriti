@@ -32,6 +32,8 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('daily_quote');
+    localStorage.removeItem('quote_date');
     localStorage.removeItem('token');
   }
 

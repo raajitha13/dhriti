@@ -4,6 +4,7 @@ import { DashboardComponent } from './features/dashboard/dashboard/dashboard.com
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   title = 'habit-tracker-frontend';
   showSidebar = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthService) {
     this.router.events.pipe(
     filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -33,7 +34,7 @@ export class AppComponent {
     this.router.navigate(['/habits/analytics']);
   }
   logout(){
-    localStorage.removeItem('token');
+    this.auth.logout();
     this.router.navigate(['/login']);
   }
 }

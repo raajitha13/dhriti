@@ -6,7 +6,7 @@
       Hello, {{ username }}!
     </div>
     <div class="quote-text">
-      {{ quote }}
+      {{ quote$ | async }}
     </div>
     <img src="assets/lotusIcon.png" alt="Lotus Leaves" class="lotus-leaves-img" />
   </mat-card>

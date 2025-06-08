@@ -50,14 +50,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.authService.getUsernameFromToken();
-    this.motivationService.fetchMotivation();
-    this.motivationService.quote$.subscribe(q => this.quote = q);
+    this.motivationService.fetchQuote();
+    // this.motivationService.quote$.subscribe(q => this.quote = q);
     this.habitService.getHabits();
     this.generateVisibleDates();
   }
 
   get habits$() {
     return this.habitService.habits$;
+  }
+
+  get quote$() {
+    return this.motivationService.quote$;
   }
 
   navigateToAddHabit() {
