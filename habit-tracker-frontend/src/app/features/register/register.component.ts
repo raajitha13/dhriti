@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DisableOnSubmitDirective } from '../../shared/directive/disable-on-submit.directive';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, DisableOnSubmitDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -15,6 +17,8 @@ export class RegisterComponent {
   registerForm: FormGroup;
   successMessage = '';
   errorMessage = '';
+
+  registerObservable?: Observable<any>;
 
   constructor(
     private fb: FormBuilder,
@@ -39,8 +43,9 @@ export class RegisterComponent {
     if (this.registerForm.invalid) return;
 
     const userData = this.registerForm.value;
+    this.registerObservable = this.auth.register(userData);
 
-    this.auth.register(userData).subscribe({
+    this.registerObservable.subscribe({
       next: (res) => {
         this.successMessage = res.message;
         this.errorMessage = '';
@@ -50,9 +55,13 @@ export class RegisterComponent {
         this.errorMessage = err.error.message;
         this.successMessage = '';
         console.error(err);
+      },
+      complete: () => {
+        this.registerObservable = undefined; // reset
       }
     });
   }
+
 
   goToLogin() {
     this.router.navigate(['/login']);

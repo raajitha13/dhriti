@@ -1,7 +1,7 @@
 <div class="register-wrapper">
   <div class="app-name">Dhriti</div>
   
-  <form [formGroup]="registerForm" (ngSubmit)="register()" class="register-form">
+  <form [formGroup]="registerForm" (ngSubmit)="register()"  [appDisableOnSubmit]="registerObservable" class="register-form">
     <div class="register-title">Register</div>
     <input type="text" formControlName="username" placeholder="Email" class="register-input" />
     <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')" class="error-text">

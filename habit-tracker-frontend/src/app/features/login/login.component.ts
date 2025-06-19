@@ -5,10 +5,12 @@ import { AuthService } from '../../auth/auth.service';
 import { User } from '../../core/models/user.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { DisableOnSubmitDirective } from '../../shared/directive/disable-on-submit.directive';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, DisableOnSubmitDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -22,7 +24,7 @@ export class LoginComponent {
 
   errorMessage: string = '';
   
-
+  loginObservable?: Observable<any>;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
@@ -35,7 +37,9 @@ export class LoginComponent {
     if (this.loginForm.invalid) return;
 
     const loginData = this.loginForm.value;
-    this.auth.login(loginData).subscribe({
+    this.loginObservable = this.auth.login(loginData);
+
+    this.loginObservable.subscribe({
       next: (res: any) => {
         this.auth.storeToken(res.token);
         this.router.navigate(['/habits/dashboard']);
@@ -43,6 +47,9 @@ export class LoginComponent {
       error: err => {
         this.errorMessage = err.error.message;
         console.log(err.error);
+      },
+      complete: () => {
+        this.loginObservable = undefined; // reset
       }
     });
   }

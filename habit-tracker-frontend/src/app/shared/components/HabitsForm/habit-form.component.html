@@ -1,7 +1,7 @@
 <div class="habit-form-container">
   <h2 class="habit-form-title">{{ isEdit ? 'Edit Habit' : 'Add Habit' }}</h2>
 
-  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="habit-form">
+  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()"  [appDisableOnSubmit]="submitObservable" class="habit-form">
 
     <label class="habit-label">
       Habit Name:

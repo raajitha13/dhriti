@@ -5,12 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HabitService } from '../../../core/services/habit.service';
 import { Habit } from '../../../core/models/habit.model';
+import { DisableOnSubmitDirective } from '../../directive/disable-on-submit.directive';
+import { Observable } from 'rxjs';
 
 
 @Component({
   selector: 'app-habit-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DisableOnSubmitDirective],
   templateUrl: './habit-form.component.html',
   styleUrl: './habit-form.component.scss'
 })
@@ -20,6 +22,8 @@ export class HabitFormComponent {
   habitId: number | null = null;
 
   errorMessage = '';
+
+  submitObservable?: Observable<any>;
 
   constructor(
     private fb: FormBuilder,
@@ -63,15 +67,20 @@ export class HabitFormComponent {
     }
 
     if (this.isEdit && this.habitId !== null) {
-      this.habitService.updateHabit(this.habitId, this.habitForm.value).subscribe({
-        next: () => this.router.navigate(['/habits']),
-        error: (err) => this.errorMessage = err.error.message || 'Failed to update habit'
-      });
+      this.submitObservable = this.habitService.updateHabit(this.habitId, this.habitForm.value);
     } else {
-      this.habitService.addHabit(this.habitForm.value).subscribe({
-        next: () => this.router.navigate(['/habits']),
-        error: (err) => this.errorMessage = err.error.message || 'Failed to create habit'
-      });
+      this.submitObservable = this.habitService.addHabit(this.habitForm.value);
     }
+
+    this.submitObservable.subscribe({
+      next: () => this.router.navigate(['/habits']),
+      error: (err) => {
+        this.errorMessage = err.error.message || 'Failed to save habit';
+      },
+      complete: () => {
+        this.submitObservable = undefined; // Reset after complete
+      }
+    });
   }
+
 }

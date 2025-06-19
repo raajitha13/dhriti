@@ -49,7 +49,8 @@ export class DashboardComponent implements OnInit {
   constructor(private habitService: HabitService, private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router, private authService: AuthService, private motivationService: MotivationService) {}
 
   ngOnInit(): void {
-    this.username = this.authService.getUsernameFromToken();
+    const email = this.authService.getUsernameFromToken();
+    this.username = email ? email.split('@')[0] : '';
     this.motivationService.fetchQuote();
     // this.motivationService.quote$.subscribe(q => this.quote = q);
     this.habitService.getHabits();
