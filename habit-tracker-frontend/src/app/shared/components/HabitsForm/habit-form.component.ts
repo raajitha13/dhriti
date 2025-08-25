@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HabitService } from '../../../core/services/habit.service';
 import { Habit } from '../../../core/models/habit.model';
 import { DisableOnSubmitDirective } from '../../directive/disable-on-submit.directive';
@@ -17,7 +17,9 @@ import { Observable } from 'rxjs';
   styleUrl: './habit-form.component.scss'
 })
 export class HabitFormComponent {
-  habitForm: FormGroup;
+  habitForm: FormGroup<{
+    name: FormControl<string>;
+  }>;
   isEdit = false;
   habitId: number | null = null;
 
@@ -31,16 +33,13 @@ export class HabitFormComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.habitForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(30),
-          Validators.pattern(/^[a-zA-Z0-9\s\-\_.,!?()]+$/)
-        ]
-      ]
+    this.habitForm = this.fb.nonNullable.group({
+      name: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(30),
+        Validators.pattern(/^[a-zA-Z0-9\s\-\_.,!?()]+$/)
+      ]]
     });
 
   }

@@ -44,13 +44,13 @@ export class HabitService {
     );
   }
 
-  addHabit(habit: Habit) {
+  addHabit(habit: Partial<Habit>) {
     return this.http.post(this.baseUrl, habit).pipe(
       tap(() => this.getHabits())
     );
   }
   
-  updateHabit(id: number, habit: any) {
+  updateHabit(id: number, habit: Partial<Habit>) {
     return this.http.put(`${this.baseUrl}/${id}`, habit).pipe(
       tap(() => this.getHabits())
     );
