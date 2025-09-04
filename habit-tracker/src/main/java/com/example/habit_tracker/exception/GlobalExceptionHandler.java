@@ -70,5 +70,16 @@ public class GlobalExceptionHandler {
                 ));
         }
 
+        @ExceptionHandler(AlreadyExistsException.class)
+        public ResponseEntity<?> handleReflectionExists(AlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 409,
+                        "error", "Conflict",
+                        "message", ex.getMessage()
+                ));
+        }
+
 }
 
