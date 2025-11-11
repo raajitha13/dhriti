@@ -166,8 +166,13 @@
   // font-family: 'Segoe Script', cursive;
   color: #6b705c;
   overflow: visible;  /* allow overflow for the image */
-  min-height: 140px;
+  min-height: 160px;
 }
+
+.quote-card.no-padding {
+  padding: 0px 30px 0px 30px; /* remove padding for reflection */
+}
+
 
 .user-info {
   font-size: 1.1rem;
@@ -177,7 +182,8 @@
 .quote-text {
   font-size: 1.7rem;
   font-style: italic;
-  color: #b5838d; /* pastel pink */
+  // color: #b5838d; /* pastel pink */
+  color: inherit !important;
   margin-top: 8px;
   text-align: left;
   user-select: none;
@@ -191,7 +197,7 @@
   bottom: -20px; /* overflow 20px below border */
   right: -25px;  /* overflow 25px beyond border */
   width: 220px;  /* bigger size */
-  opacity: 0.3;
+  opacity: 0.5;
   pointer-events: none;
   user-select: none;
   filter: drop-shadow(0 2px 4px rgba(181, 163, 165, 0.4));

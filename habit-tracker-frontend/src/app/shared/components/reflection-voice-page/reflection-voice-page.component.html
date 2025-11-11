@@ -1,0 +1,38 @@
+<div class="voice-page" [class.recording]="recording">
+  <h2>Reflection for {{ reflectionDate || 'Today' }}</h2>
+  <h2>🎤 Speak your reflection</h2>
+
+  <div class="waveform-container" *ngIf="recording">
+    <div class="waveform">
+      <div
+        class="bar"
+        *ngFor="let height of waveformBars"
+        [style.transform]="'scaleY(' + (height / 50) + ')'">
+      </div>
+    </div>
+    <p class="listening">Listening...</p>
+  </div>
+
+  <div class="processing" *ngIf="processing">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Processing your reflection...</p>
+  </div>
+
+  <div class="error" *ngIf="errorState && !recording && !processing">
+    <p>⚠️ Something went wrong while recording.</p>
+    <button mat-raised-button color="primary" (click)="retryRecording()">Try Again</button>
+  </div>
+
+  <div *ngIf="!recording && !processing && transcript && !errorState">
+    <p>You said: "{{ transcript }}"</p>
+  </div>
+
+  <button
+    mat-raised-button
+    color="accent"
+    class="stop-btn"
+    *ngIf="recording"
+    (click)="stopRecording()">
+    ⏹ Stop Recording
+  </button>
+</div>

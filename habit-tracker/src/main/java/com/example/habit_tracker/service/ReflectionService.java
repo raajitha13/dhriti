@@ -38,12 +38,12 @@ public class ReflectionService {
      * Returns the Reflection entity so controller can build DTO.
      */
     @Transactional
-    public Reflection createReflection(User user, String inputText) {
+    public Reflection createReflection(User user, String inputText, LocalDate date) {
         // 1. Save Reflection
         Reflection reflection = new Reflection();
         reflection.setUser(user);
         reflection.setInputText(inputText); // short-lived
-        reflection.setDate(LocalDate.now());
+        reflection.setDate(date);
         reflection.setCreatedAt(LocalDateTime.now());
         reflectionRepository.save(reflection);
 

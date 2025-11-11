@@ -19,6 +19,11 @@ export const appRoutes: Routes = [
   {
     path: 'habits',
     loadChildren: () =>
-      import('./features/habits/habits.module').then(m => m.HabitsModule),
+      import('./features/routes/habits/habits.module').then(m => m.HabitsModule),
+  },
+  {
+    path: 'reflections',
+    loadChildren: () =>
+      import('./features/routes/reflections/reflections.module').then(m => m.ReflectionsModule),
   },
 ];

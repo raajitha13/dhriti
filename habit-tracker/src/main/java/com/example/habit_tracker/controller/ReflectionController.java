@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,14 +81,16 @@ public class ReflectionController {
     }
 
 
-    @PostMapping
+    @PostMapping(consumes = "text/plain")
     public ResponseEntity<ReflectionResponse> createReflection(
             @RequestBody String inputText,
-            @RequestParam(defaultValue = "false") boolean overwrite) {
+            @RequestParam(defaultValue = "false") boolean overwrite,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         User user = accessValidator.getCurrentUser();
+        LocalDate targetDate = (date != null) ? date : LocalDate.now();
 
-        Reflection existing = reflectionService.getReflectionByUserAndDate(user, LocalDate.now());
+        Reflection existing = reflectionService.getReflectionByUserAndDate(user, targetDate);
 
         if (existing != null && !overwrite) {
             throw new AlreadyExistsException("Reflection exists for this date");
@@ -95,7 +98,7 @@ public class ReflectionController {
 
         Reflection reflection = (existing != null)
                 ? reflectionService.updateReflection(existing, inputText)
-                : reflectionService.createReflection(user, inputText);
+                : reflectionService.createReflection(user, inputText, targetDate);
 
         ReflectionInsights insights = reflectionService.getInsightsForReflection(reflection);
 

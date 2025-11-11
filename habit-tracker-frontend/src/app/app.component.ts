@@ -37,4 +37,8 @@ export class AppComponent {
     this.auth.logout();
     this.router.navigate(['/login']);
   }
+
+  goToMemoryTiles(){
+    this.router.navigate(['/habits/memory-tiles']);
+  }
 }

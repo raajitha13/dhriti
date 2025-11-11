@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from '../dashboard/dashboard/dashboard.component';
-import { AnalyticsComponent } from '../analytics/analytics.component';
-import { authGuardGuard } from '../../auth/auth-guard.guard';
-import { HabitFormComponent } from '../../shared/components/HabitsForm/habit-form.component';
+import { DashboardComponent } from '../../dashboard/dashboard/dashboard.component';
+import { AnalyticsComponent } from '../../analytics/analytics.component';
+import { authGuardGuard } from '../../../auth/auth-guard.guard';
+import { HabitFormComponent } from '../../../shared/components/HabitsForm/habit-form.component';
+import { MemoryTilesComponent } from '../../memoryTiles/memory-tiles.component';
 
 export const habitsRoutes: Routes = [
   {
@@ -30,4 +31,9 @@ export const habitsRoutes: Routes = [
     component: AnalyticsComponent,
     canActivate: [authGuardGuard],
   },
+  {
+    path: 'memory-tiles',
+    component: MemoryTilesComponent,
+    canActivate: [authGuardGuard],
+  }
 ];

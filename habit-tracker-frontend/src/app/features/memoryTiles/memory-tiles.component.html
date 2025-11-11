@@ -1,0 +1,106 @@
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>🧠 Memory Tiles</h1>
+      <p>Visual timeline of recent reflections — weekly / monthly views</p>
+    </div>
+
+    <div class="controls">
+      <div class="view-toggle">
+        <button (click)="setViewMode('weekly')" [class.active]="viewMode==='weekly'">Weekly</button>
+        <button (click)="setViewMode('monthly')" [class.active]="viewMode==='monthly'">Monthly</button>
+
+      </div>
+
+      <select [(ngModel)]="sentimentFilter">
+        <option value="all">All moods</option>
+        <option *ngFor="let k of (SENTIMENT_MAP | keyvalue)" [value]="k.key">{{ k.value.label }}</option>
+      </select>
+
+      <input type="search" placeholder="Search highlights or summary" [(ngModel)]="query" />
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-item">View: <strong>{{ viewMode }}</strong></div>
+    <div class="summary-item">Tiles shown: <strong>{{ tiles.length }}</strong></div>
+    <div class="summary-item summary-stats">
+      <div *ngFor="let k of (SENTIMENT_MAP | keyvalue)">
+        <span>{{ k.value.emoji }}</span> {{ stats[k.key] }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Pinterest-style tiles -->
+<!-- Pinterest-style tiles -->
+<div #tilesContainer class="tiles">
+  <div *ngIf="tiles.length === 0" class="no-tiles">No memories found for the selected filters.</div>
+
+<article 
+  *ngFor="let t of tiles" 
+  class="tile"
+  [style.--row-span]="t.rowSpan"
+  [ngClass]="t.summary ? t.sentiment : 'empty'"
+  (click)="t.summary ? selected = t : !isFutureDate(t.date) && promptReflect(t)">
+
+  
+  <div class="tile-header">
+    <div class="tile-date">{{ formatDate(t.date) }}</div>
+    <div *ngIf="t.summary; else emptyTile">
+      <div [style.font-size.px]="getEmojiSize(t)">
+        {{ SENTIMENT_MAP[t.sentiment]?.emoji }}
+      </div>
+      {{ t.highlights?.[0] || (t.summary | slice:0:30) || SENTIMENT_MAP[t.sentiment]?.label }}
+    </div>
+    <ng-template #emptyTile>
+      <div class="reflect-now">
+        {{ isFutureDate(t.date) ? '🪐 Future you' : '🕒 Reflect Now' }}
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngIf="t.summary" class="tile-highlights">
+    <span class="highlight-badge" *ngFor="let h of t.highlights | slice:0:2">{{ h }}</span>
+  </div>
+
+</article>
+
+</div>
+
+
+
+  <!-- Modal -->
+  <div *ngIf="selected" class="modal">
+    <div class="modal-backdrop" (click)="closeModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div>{{ formatDate(selected?.date || '') }}</div>
+          <h2>{{ SENTIMENT_MAP[selected.sentiment]?.emoji }} {{ SENTIMENT_MAP[selected.sentiment]?.label }}</h2>
+        </div>
+        <button class="modal-close" (click)="closeModal()">Close</button>
+      </div>
+
+      <div class="modal-body">
+        <p>{{ selected.summary }}</p>
+        <div *ngIf="selected.highlights?.length">
+          <div>Highlights</div>
+          <ul>
+            <li *ngFor="let h of selected.highlights">{{ h }}</li>
+          </ul>
+        </div>
+        <div *ngIf="selected.habitImpact?.length">
+          <div>Habit impact</div>
+          <p>{{ selected?.habitImpact?.join(', ') }}</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn" (click)="closeModal()">Close</button>
+        <button class="btn btn-primary" (click)="pinTile()">Pin</button>
+      </div>
+    </div>
+  </div>
+</div>

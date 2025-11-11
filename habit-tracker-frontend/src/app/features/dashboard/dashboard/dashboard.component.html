@@ -1,15 +1,34 @@
   
 <div fxLayout="column" fxLayoutGap="25px" class="dashboard-layout">    
   <!-- Quote -->
-  <mat-card class="quote-card" fxLayout="column" fxLayoutGap="12px" style="position: relative; overflow: visible;">
-    <div class="user-info" style="align-self: flex-end; font-weight: 600; color: #6b705c;">
-      Hello, {{ username }}!
-    </div>
-    <div class="quote-text">
-      {{ quote$ | async }}
-    </div>
-    <img src="assets/lotusIcon.png" alt="Lotus Leaves" class="lotus-leaves-img" />
+  <mat-card class="quote-card" fxLayout="column" fxLayoutGap="12px" style="position: relative; overflow: visible;" [ngStyle]="{
+            'background-image': 'url(' + backgroundImage + ')',
+            'background-size': 'cover',
+            'background-position': 'center',
+            'color': reflectionTextColor
+          }" [ngClass]="{'no-padding': reflectionPending}">
+
+    <!-- Case 1: Show Reflection -->
+    <ng-container *ngIf="reflectionPending; else quoteBanner">
+      <app-reflection-overlay 
+        (reflectionComplete)="onReflectionComplete($event)" 
+        (skip)="onReflectionSkip()">
+      </app-reflection-overlay>
+    </ng-container>
+
+    <!-- Case 2: Show Quote -->
+    <ng-template #quoteBanner>
+      <div class="user-info" style="align-self: flex-end; font-weight: 600; color: #6b705c;">
+        Hello, {{ username }}!
+      </div>
+      <div class="quote-text">
+        {{ quote$ | async }}
+      </div>
+      <img src="assets/lotusIcon.png" alt="Lotus Leaves" class="lotus-leaves-img" />
+    </ng-template>
+
   </mat-card>
+
 
 
   <mat-card class="dashboard-container">

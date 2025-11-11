@@ -1,0 +1,9 @@
+<div class="text-page">
+  <h2>⌨️ Share your reflection</h2>
+  <textarea [(ngModel)]="reflectionText" rows="5" placeholder="Type here..."></textarea>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+  </div>
+</div>

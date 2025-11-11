@@ -1,0 +1,14 @@
+<!-- reflection-overlay.component.html --> 
+<div class="reflection-container"> 
+  <div class="text-box" #textBox> 
+    <p>👋 Hey {{username}}, how was your day?</p> 
+    <div class="actions"> 
+      <button mat-raised-button color="primary" (click)="startVoice()">🎤 Speak</button> 
+      <button mat-raised-button color="accent" (click)=startText()>⌨️ Type</button> 
+      <button mat-button (click)="skipPrompt()">Skip</button> 
+    </div> 
+  </div> 
+  <div class="char-box"> 
+    <img #charImg src="assets/character.png" alt="Character Assistant" /> 
+  </div> 
+</div>

@@ -15,7 +15,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../shared/components/ConfirmDialog/ConfirmDialog.component';
 import { MotivationService } from '../../../core/services/motivation.service';
-
+import { ReflectionOverlayComponent } from '../../../shared/components/reflection-overlay/reflection-overlay.component';
+import { ReflectionService } from '../../../core/services/reflection.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,9 +34,14 @@ import { MotivationService } from '../../../core/services/motivation.service';
     FlexLayoutModule,
     MatCheckboxModule,
     MatIcon,
-  ]
+    MatProgressSpinnerModule,
+    ReflectionOverlayComponent,
+  ],
 })
 export class DashboardComponent implements OnInit {
+  backgroundImage: string = '';
+  reflectionTextColor: string = '#000'; // default for reflection text
+
   selectedHabit: Habit | null = null;
   visibleDates: string[] = [];
   dateOffset = 0;
@@ -45,16 +53,98 @@ export class DashboardComponent implements OnInit {
   username: string | null = null;
 
   quote: string = '';
+  reflectionPending = false;
 
-  constructor(private habitService: HabitService, private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router, private authService: AuthService, private motivationService: MotivationService) {}
+  constructor(private habitService: HabitService, private dialog: MatDialog, private snackBar: MatSnackBar, private router: Router, private authService: AuthService, private motivationService: MotivationService, private reflectionService: ReflectionService, private userService: UserService) {}
 
   ngOnInit(): void {
     const email = this.authService.getUsernameFromToken();
     this.username = email ? email.split('@')[0] : '';
+
+    setTimeout(() => {
+      this.reflectionService.todaysReflection$.subscribe({
+        next: (reflection) => {
+          this.reflectionPending = !reflection; // true if null, false if reflection exists
+          console.log('Reflection pending:', this.reflectionPending, reflection);
+        },
+        error: () => { 
+          this.reflectionPending = false; 
+        }
+      });
+    }, 5000);
+
+    this.reflectionService.fetchTodaysReflection();
+
+    this.userService.getMood().subscribe(mood => {
+      console.log('Current mood:', mood);
+    });
+
+    this.setBackgroundImage();
+
     this.motivationService.fetchQuote();
-    // this.motivationService.quote$.subscribe(q => this.quote = q);
     this.habitService.getHabits();
     this.generateVisibleDates();
+  }
+
+  setBackgroundImage() {
+    const hour = new Date().getHours();
+    let options: string[];
+
+    if (hour >= 6 && hour < 12) {
+      options = ['assets/bg/day1.jpg', 'assets/bg/day2.jpg', 'assets/bg/day3.jpg', 'assets/bg/day4.jpg', 'assets/bg/day5.jpg'];
+    } else if (hour >= 12 && hour < 18) {
+      options = ['assets/bg/afternoon1.jpg', 'assets/bg/afternoon2.jpg', 'assets/bg/afternoon3.jpg', 'assets/bg/afternoon4.jpg', 'assets/bg/afternoon5.jpg'];
+    } else {
+      options = ['assets/bg/night1.jpg', 'assets/bg/night2.jpg', 'assets/bg/night3.jpg', 'assets/bg/night4.jpg', 'assets/bg/night5.jpg', 'assets/bg/night6.jpg'];
+    }
+
+    this.backgroundImage = options[Math.floor(Math.random() * options.length)];
+    this.setBannerTextColor();
+  }
+
+  setBannerTextColor(){
+    const img = new Image();
+    img.src = this.backgroundImage;
+    img.crossOrigin = 'anonymous'; // just in case images are served from another origin
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
+
+      let r = 0, g = 0, b = 0, count = 0;
+
+      // Sample every 10th pixel to save performance
+      for (let i = 0; i < imageData.length; i += 40) {
+        r += imageData[i];
+        g += imageData[i + 1];
+        b += imageData[i + 2];
+        count++;
+      }
+
+      r = r / count;
+      g = g / count;
+      b = b / count;
+
+      // Calculate luminance
+      const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+
+      this.reflectionTextColor = brightness < 128 ? '#fff' : '#000'; // dark bg => white text
+    };
+  }
+
+  onReflectionComplete(inputText: string) {
+    this.reflectionPending = false;
+  }
+
+  onReflectionSkip() {
+    this.reflectionPending = false;
   }
 
   get habits$() {

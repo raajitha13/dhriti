@@ -1,0 +1,101 @@
+.reflection-container {
+  display: grid;
+  grid-template-columns: 1fr 0.4fr;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.char-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-height: 160px;
+    object-fit: contain;
+    z-index: 2;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 160, 0.4), transparent 70%);
+    filter: blur(25px);
+    z-index: 1;
+  }
+}
+
+.text-box {
+  flex: 1;
+  text-align: left;
+  p {
+    font-size: 1.5rem;
+    color: inherit !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+
+  button {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.6rem 1.4rem;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  /* 🎤 Speak button (soft blue) */
+  button[color="primary"] {
+    background-color: #bcdfff;
+    color: #1a3b5d;
+    border: 1px solid #a3d3ff;
+
+    &:hover {
+      background-color: #a3d3ff;
+      transform: translateY(-1px);
+    }
+  }
+
+  /* ⌨️ Type button (lotus pink) */
+  button[color="accent"] {
+    background-color: #f8c9d2;
+    color: #4b2a2a;
+    border: 1px solid #f3aebd;
+
+    &:hover {
+      background-color: #f3aebd;
+      transform: translateY(-1px);
+    }
+  }
+
+  /* Skip (minimal neutral) */
+  button:not([color]) {
+    background-color: transparent;
+    color: #888;
+    border: 1px solid #ddd;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      color: #555;
+      transform: translateY(-1px);
+    }
+  }
+}
+

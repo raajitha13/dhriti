@@ -1,0 +1,102 @@
+.voice-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 85vh;
+  width: 100%;
+  padding-top: 60px;
+  text-align: center;
+  gap: 2rem;
+  background: #f0f4f8; // subtle light background for app aesthetic
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1b2a49;
+    margin-bottom: 10px;
+  }
+
+  .waveform-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 90%;
+  }
+
+  .waveform {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 600px;
+    height: 180px; // taller waves
+
+    .bar {
+      flex: 1;
+      max-width: 25px;
+      height: 150px; // base height
+      border-radius: 6px;
+      background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+      transform-origin: bottom;
+      transition: transform 0.12s ease-out, background 0.3s ease;
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+
+      &:nth-child(odd) {
+        background: linear-gradient(180deg, #43e97b 0%, #38f9d7 100%);
+        box-shadow: 0 0 14px rgba(56, 249, 215, 0.6);
+      }
+
+      &:nth-child(even) {
+        background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+        box-shadow: 0 0 14px rgba(0, 242, 254, 0.6);
+      }
+    }
+
+    .listening {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #1b2a49;
+    }
+  }
+
+  .processing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .error {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+
+    p {
+      color: #d32f2f;
+      font-weight: 500;
+    }
+  }
+
+  .stop-btn {
+    margin-top: 20px;
+    background-color: #1b2a49;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

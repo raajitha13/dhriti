@@ -1,7 +1,6 @@
 package com.example.habit_tracker.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
